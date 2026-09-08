@@ -12,6 +12,17 @@ const phases = [
   { name: 'Avaliação', range: 'Semana 26', detail: 'Revisar resultados, repetir referências de baseline e fechar o relatório da temporada.' },
 ];
 
+export const seasonObjectives = [
+  'Aumentar atenção sustentada e reduzir alternâncias desnecessárias.',
+  'Melhorar flexibilidade cognitiva e adaptação consciente de estratégia.',
+  'Fortalecer representação visuoespacial e reconstrução mental.',
+  'Aprimorar raciocínio abstrato, planejamento e solução de problemas.',
+  'Expandir comunicação, vocabulário e recuperação de ideias sem apoio.',
+  'Desenvolver raciocínio matemático aplicado a situações significativas.',
+  'Treinar criatividade com restrições, geração de alternativas e produção autoral.',
+  'Aprofundar compreensão científica por hipótese, modelagem, previsão e explicação.'
+];
+
 export function getPhase(week: number) {
   if (week <= 2) return phases[0];
   if (week <= 6) return phases[1];
@@ -22,11 +33,12 @@ export function getPhase(week: number) {
   return phases[6];
 }
 
-const domains: Domain[] = ['Visuoespacial','Flexibilidade','Atenção','Ciência','Verbal','Raciocínio'];
+export const domains: Domain[] = ['Visuoespacial','Flexibilidade','Atenção','Ciência','Verbal','Raciocínio','Matemática','Criatividade'];
 const levelFor = (week:number) => Math.min(10, 1 + Math.floor((week - 1) / 3));
 
 export function getPrescription(week:number, day:number): Prescription {
-  const domain = domains[(week + day - 2) % domains.length];
+  const ordinal = (week - 1) * 6 + (day - 1);
+  const domain = domains[ordinal % domains.length];
   const level = levelFor(week);
   const base = { domain, level, minutes: 45 };
   if (domain === 'Visuoespacial') return { ...base,
@@ -65,10 +77,32 @@ export function getPrescription(week:number, day:number): Prescription {
     record: 'Resumo, conceitos esquecidos, palavras novas e pontos em que a explicação perdeu clareza.',
     steps: ['Leia um trecho de ficção científica ou divulgação científica por 20 a 25 minutos.','Feche o texto e escreva um resumo curto sem consultar.','Escolha ideias centrais e explique como se falasse com alguém que não leu o texto.','Compare com o original e marque omissões, distorções e palavras novas.']
   };
+  if (domain === 'Matemática') return { ...base,
+    title: level < 5 ? 'Matemática aplicada a um problema real' : 'Modelagem matemática sob restrições',
+    subtitle: 'Trabalhe números como ferramenta para prever, comparar e decidir.',
+    environment: 'Papel, calculadora ou planilha; preferencialmente um problema de física, jogo ou rotina real.',
+    rule: 'Antes de calcular, escreva o que cada variável significa e estime a ordem de grandeza da resposta.',
+    record: 'Estimativa inicial, cálculo, erro percentual quando houver referência e explicação do raciocínio.',
+    steps: ['Escolha um problema quantitativo relacionado a física, recursos de jogo ou planejamento.','Liste variáveis, unidades e uma estimativa aproximada.','Resolva mostrando etapas, não apenas a resposta.','Compare estimativa e resultado e explique diferenças importantes.']
+  };
+  if (domain === 'Criatividade') return { ...base,
+    title: level < 5 ? 'Criação com três restrições' : 'Projeto autoral com restrições conflitantes',
+    subtitle: 'Criatividade aqui significa gerar alternativas úteis sob limites claros.',
+    environment: 'Papel, texto, desenho ou editor digital — sem arquitetura.',
+    rule: `Gere pelo menos ${level < 5 ? 5 : 8} alternativas antes de escolher uma.` ,
+    record: 'Alternativas geradas, critérios de escolha, versão final e o que você descartou.',
+    steps: ['Escolha um tema ligado a ficção científica, desenho, narrativa ou design de sistema.','Defina três restrições obrigatórias.','Gere alternativas sem julgar durante a primeira etapa.','Selecione uma usando critérios explícitos e produza uma versão final curta.']
+  };
   return { ...base,
     title: 'Problema de planejamento em Cities: Skylines', subtitle: 'Use sistemas complexos para raciocinar sobre restrições, consequências e alternativas.',
     environment: 'Cities: Skylines ou No Man’s Sky + bloco de notas.', rule: 'Defina o problema antes de agir e gere alternativas antes de escolher uma solução.',
     record: 'Problema, hipóteses, solução escolhida, resultado observado e o que faria diferente.',
     steps: ['Escolha um problema real do seu save: trânsito, recursos, expansão, logística ou organização de base.',`Escreva ${level < 5 ? 'três' : 'cinco'} soluções possíveis antes de mexer no jogo.`,'Escolha uma solução usando critérios explícitos e implemente-a.','Observe consequências inesperadas e explique por que ocorreram.']
   };
+}
+
+export function seasonDistribution(){
+  const counts = Object.fromEntries(domains.map(d=>[d,0])) as Record<Domain,number>;
+  for(let w=1;w<=26;w++) for(let d=1;d<=6;d++) counts[getPrescription(w,d).domain]++;
+  return counts;
 }
