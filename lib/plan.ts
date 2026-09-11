@@ -1,26 +1,45 @@
-export type Domain = 'Atenção' | 'Flexibilidade' | 'Visuoespacial' | 'Raciocínio' | 'Verbal' | 'Matemática' | 'Criatividade' | 'Ciência';
+export type Domain = 'Verbal' | 'Visuoespacial' | 'Memória operacional' | 'Raciocínio' | 'Executivo';
 
-export type Prescription = { domain: Domain; title: string; subtitle: string; minutes: number; level: number; environment: string; rule: string; record: string; steps: string[] };
+export type Prescription = {
+  domain: Domain;
+  title: string;
+  subtitle: string;
+  minutes: number;
+  level: number;
+  environment: string;
+  rule: string;
+  record: string;
+  steps: string[];
+};
+
+type WeekKit = {
+  theme: string;
+  concept: string;
+  words: string[];
+  objects: string[];
+  sequence: number[];
+  reasoning: string;
+  transfer: string;
+};
 
 const phases = [
-  { name: 'Baseline', range: 'Semanas 1–2', detail: 'Descobrir seu ponto de partida e construir consistência sem buscar velocidade.' },
-  { name: 'Fundação', range: 'Semanas 3–6', detail: 'Fixar métodos, aumentar precisão e criar hábitos de observação e explicação.' },
-  { name: 'Desenvolvimento', range: 'Semanas 7–12', detail: 'Aumentar complexidade, número de restrições e necessidade de planejamento.' },
-  { name: 'Integração', range: 'Semanas 13–18', detail: 'Combinar duas ou mais capacidades na mesma missão.' },
-  { name: 'Alta complexidade', range: 'Semanas 19–23', detail: 'Trabalhar problemas abertos com menos instrução e mais autonomia.' },
-  { name: 'Desafio final', range: 'Semanas 24–25', detail: 'Resolver e produzir algo complexo, transferindo habilidades para situações novas.' },
-  { name: 'Avaliação', range: 'Semana 26', detail: 'Revisar resultados, repetir referências de baseline e fechar o relatório da temporada.' },
+  { name: 'Baseline', range: 'Semanas 1–2', detail: 'Calibrar evocação, representação espacial, memória e raciocínio sem buscar velocidade.' },
+  { name: 'Fundação', range: 'Semanas 3–6', detail: 'Criar métodos estáveis e aumentar precisão com tarefas curtas e concretas.' },
+  { name: 'Desenvolvimento', range: 'Semanas 7–12', detail: 'Aumentar abstração, interferência e quantidade de informação manipulada.' },
+  { name: 'Integração', range: 'Semanas 13–18', detail: 'Combinar linguagem, memória, espaço e raciocínio na mesma missão.' },
+  { name: 'Alta complexidade', range: 'Semanas 19–23', detail: 'Resolver problemas novos com menos apoio e maior transferência.' },
+  { name: 'Desafio final', range: 'Semanas 24–25', detail: 'Integrar habilidades em hipóteses, explicações e problemas inéditos.' },
+  { name: 'Avaliação', range: 'Semana 26', detail: 'Repetir referências de baseline e medir transferência sem treinar o formato do teste.' },
 ];
 
 export const seasonObjectives = [
-  'Aumentar atenção sustentada e reduzir alternâncias desnecessárias.',
-  'Melhorar flexibilidade cognitiva e adaptação consciente de estratégia.',
-  'Fortalecer representação visuoespacial e reconstrução mental.',
-  'Aprimorar raciocínio abstrato, planejamento e solução de problemas.',
-  'Expandir comunicação, vocabulário e recuperação de ideias sem apoio.',
-  'Desenvolver raciocínio matemático aplicado a situações significativas.',
-  'Treinar criatividade com restrições, geração de alternativas e produção autoral.',
-  'Aprofundar compreensão científica por hipótese, modelagem, previsão e explicação.'
+  'Priorizar evocação lexical: recuperar palavras e conceitos sem depender de pistas.',
+  'Fortalecer raciocínio visuoespacial por rotação, reconstrução e mudança de perspectiva.',
+  'Treinar memória operacional: manter e manipular informação mentalmente.',
+  'Aprimorar abstração, formulação de hipóteses, lógica e explicação causal.',
+  'Melhorar atenção, flexibilidade e precisão executiva em tarefas curtas.',
+  'Usar física e ciência como conteúdo progressivo, começando do intuitivo e avançando sem presumir domínio prévio.',
+  'Medir transferência com desafios inéditos, em vez de repetir testes de QI como treino.'
 ];
 
 export function getPhase(week: number) {
@@ -33,71 +52,141 @@ export function getPhase(week: number) {
   return phases[6];
 }
 
-export const domains: Domain[] = ['Visuoespacial','Flexibilidade','Atenção','Ciência','Verbal','Raciocínio','Matemática','Criatividade'];
+export const domains: Domain[] = ['Verbal','Visuoespacial','Memória operacional','Raciocínio','Executivo'];
+const schedule: Domain[] = ['Verbal','Visuoespacial','Memória operacional','Raciocínio','Verbal','Executivo'];
 const levelFor = (week:number) => Math.min(10, 1 + Math.floor((week - 1) / 3));
 
+const weekKits: WeekKit[] = [
+  {theme:'Movimento, força e energia',concept:'energia',words:['inércia','resultante','trabalho','potência','conservação'],objects:['caneca','chave','moeda'],sequence:[7,2,9,4,1],reasoning:'Uma bola continua em movimento em uma superfície ideal sem atrito. Por que ela não precisa de uma força contínua para continuar andando?',transfer:'Explique energia para uma criança de 10 anos e depois para alguém que cursou engenharia.'},
+  {theme:'Gravidade e órbitas',concept:'órbita',words:['gravidade','trajetória','aceleração','velocidade','elipse'],objects:['livro','moeda','caneta','chave'],sequence:[4,8,1,6,3,9],reasoning:'Por que um satélite pode estar continuamente caindo em direção à Terra sem atingir o solo?',transfer:'Explique a diferença entre cair e orbitar sem usar fórmulas.'},
+  {theme:'Ondas e som',concept:'onda',words:['frequência','amplitude','comprimento','ressonância','interferência'],objects:['copo','colher','borracha','caneta'],sequence:[3,9,2,7,5,1],reasoning:'Duas ondas podem se encontrar e produzir momentaneamente uma amplitude menor. O que isso sugere sobre como ondas se combinam?',transfer:'Crie uma analogia cotidiana para frequência e outra para amplitude.'},
+  {theme:'Luz e espectro',concept:'espectro',words:['refração','difração','espectro','fóton','comprimento'],objects:['lanterna desligada','livro','moeda','lápis'],sequence:[8,5,2,9,4,7],reasoning:'Por que um prisma separa a luz branca em cores diferentes?',transfer:'Explique por que cor não é apenas uma propriedade isolada do objeto.'},
+  {theme:'Termodinâmica',concept:'entropia',words:['entropia','equilíbrio','temperatura','calor','irreversível'],objects:['caneca','colher','moeda','guardanapo'],sequence:[6,1,8,3,9,2],reasoning:'Por que café quente tende a esfriar em uma sala, mas o café frio não esquenta espontaneamente retirando energia do ambiente de forma concentrada?',transfer:'Explique por que “entropia = bagunça” é uma simplificação.'},
+  {theme:'Eletricidade e magnetismo',concept:'campo',words:['carga','campo','potencial','corrente','indução'],objects:['pilha','moeda','chave','caneta'],sequence:[2,7,4,9,1,6,3],reasoning:'Como um ímã pode exercer força sem encostar no objeto?',transfer:'Compare a ideia de campo gravitacional e campo elétrico em linguagem simples.'},
+  {theme:'Relatividade especial: princípios',concept:'referencial',words:['referencial','invariância','simultaneidade','relativo','observador'],objects:['relógio','caneta','moeda','livro'],sequence:[9,3,6,1,8,4,2],reasoning:'Se a velocidade da luz é a mesma para observadores em movimento relativo, qual grandeza intuitiva precisa deixar de ser absoluta?',transfer:'Explique “referencial” usando um trem e uma plataforma.'},
+  {theme:'Relatividade especial: tempo e espaço',concept:'dilatação temporal',words:['dilatação','contração','evento','intervalo','causalidade'],objects:['relógio','chave','moeda','copo','caneta'],sequence:[5,1,9,3,7,2,8],reasoning:'Por que dois observadores podem discordar sobre a duração entre eventos sem que um deles esteja “errado”?',transfer:'Explique dilatação temporal sem usar a expressão “o tempo fica mais lento”.'},
+  {theme:'Espaço-tempo e gravidade',concept:'curvatura',words:['curvatura','geodésica','massa','espaço-tempo','equivalência'],objects:['bola','livro','moeda','caneta','chave'],sequence:[4,9,2,6,1,8,5],reasoning:'Como a gravidade pode ser descrita como geometria em vez de uma força convencional?',transfer:'Crie uma analogia para geodésica e depois aponte uma limitação da própria analogia.'},
+  {theme:'Quântica: fundamentos',concept:'superposição',words:['quântico','superposição','estado','medição','probabilidade'],objects:['moeda','dado','carta','caneta'],sequence:[8,2,5,9,1,4,7],reasoning:'Qual a diferença entre “não saber em qual estado o sistema está” e descrever um estado quântico como superposição?',transfer:'Explique superposição sem recorrer ao gato de Schrödinger.'},
+  {theme:'Dualidade e interferência quântica',concept:'dualidade',words:['dualidade','interferência','fóton','elétron','detecção'],objects:['duas moedas','caneta','livro','carta'],sequence:[1,7,3,9,5,2,8,4],reasoning:'Por que o experimento da dupla fenda é difícil de explicar usando apenas a imagem clássica de partículas como pequenas bolinhas?',transfer:'Explique o que o padrão de interferência nos obriga a reconsiderar.'},
+  {theme:'Incerteza e probabilidade',concept:'incerteza',words:['incerteza','observável','distribuição','precisão','probabilidade'],objects:['dado','moeda','carta','chave','caneta'],sequence:[6,2,9,4,1,8,3,7],reasoning:'Por que o princípio da incerteza não significa apenas que nossos instrumentos são imperfeitos?',transfer:'Diferencie incerteza quântica de erro de medição.'},
+  {theme:'Átomos e níveis de energia',concept:'quantização',words:['quantização','orbital','nível','transição','emissão'],objects:['três moedas','caneta','livro'],sequence:[3,8,1,6,9,2,7,4],reasoning:'Por que átomos emitem linhas espectrais específicas em vez de qualquer frequência possível?',transfer:'Explique níveis discretos usando uma escada e depois diga onde a analogia falha.'},
+  {theme:'Partículas fundamentais',concept:'partícula elementar',words:['quark','lépton','bóson','férmion','interação'],objects:['seis cartas','moeda','caneta'],sequence:[9,4,2,8,5,1,7,3],reasoning:'O que significa dizer que uma partícula é “elementar” no modelo atual?',transfer:'Organize quarks, léptons e bósons em uma explicação de no máximo 60 segundos.'},
+  {theme:'Simetrias e conservação',concept:'simetria',words:['simetria','invariância','conservação','transformação','momento'],objects:['baralho','duas moedas','caneta'],sequence:[2,8,4,1,9,5,3,7],reasoning:'Como uma simetria pode estar relacionada a uma lei de conservação?',transfer:'Dê um exemplo cotidiano de algo que muda de aparência mas preserva uma propriedade relevante.'},
+  {theme:'Estrelas e nucleossíntese',concept:'fusão',words:['fusão','plasma','nucleossíntese','pressão','equilíbrio'],objects:['bola','moeda','livro','caneta','copo'],sequence:[7,1,9,3,8,2,6,4],reasoning:'Por que uma estrela pode permanecer estável por bilhões de anos sem colapsar imediatamente sob a própria gravidade?',transfer:'Explique equilíbrio hidrostático como um conflito entre tendências opostas.'},
+  {theme:'Buracos negros',concept:'horizonte de eventos',words:['horizonte','singularidade','acreção','geodésica','maré'],objects:['bola','chave','moeda','relógio','caneta'],sequence:[5,9,2,7,1,8,4,3],reasoning:'Por que horizonte de eventos não é uma superfície sólida?',transfer:'Explique horizonte de eventos sem dizer que é um “buraco que suga tudo”.'},
+  {theme:'Cosmologia e expansão',concept:'expansão do universo',words:['expansão','redshift','homogêneo','isotrópico','escala'],objects:['cinco moedas','régua','caneta'],sequence:[8,3,1,9,6,2,7,4],reasoning:'Como galáxias podem se afastar umas das outras sem estarem necessariamente viajando através do espaço a partir de um centro?',transfer:'Explique expansão cósmica e aponte por que a analogia do balão é útil e limitada.'},
+  {theme:'Matéria escura',concept:'evidência indireta',words:['matéria','halo','rotação','lente','inferência'],objects:['moeda','dado','chave','livro','caneta'],sequence:[1,9,4,7,2,8,5,3],reasoning:'Como cientistas podem inferir a existência de algo que não observam diretamente pela luz?',transfer:'Liste três tipos de evidência que poderiam sustentar uma entidade não observada diretamente.'},
+  {theme:'Energia escura',concept:'aceleração cósmica',words:['aceleração','densidade','vácuo','constante','cosmológico'],objects:['seis moedas','régua','caneta'],sequence:[6,9,2,5,8,1,7,3],reasoning:'O que significa dizer que a expansão do universo está acelerando?',transfer:'Diferencie “velocidade de expansão” de “aceleração da expansão”.'},
+  {theme:'Entropia e informação',concept:'informação física',words:['informação','microestado','macroestado','entropia','irreversibilidade'],objects:['baralho','quatro moedas','caneta'],sequence:[9,1,6,3,8,2,7,5],reasoning:'Por que muitos microestados diferentes podem corresponder ao mesmo estado macroscópico?',transfer:'Relacione informação e entropia sem usar a palavra “bagunça”.'},
+  {theme:'Sistemas complexos',concept:'emergência',words:['emergência','auto-organização','não-linear','retroalimentação','coletivo'],objects:['dez moedas','dado','caneta'],sequence:[4,8,1,9,3,7,2,6],reasoning:'Como regras locais simples podem produzir um comportamento global difícil de prever?',transfer:'Explique emergência para uma criança e depois para um pesquisador.'},
+  {theme:'Astrobiologia',concept:'habitabilidade',words:['habitabilidade','biossinal','metabolismo','extremófilo','homeostase'],objects:['copo','pedra','folha','moeda','caneta'],sequence:[7,2,9,1,5,8,3,6],reasoning:'Por que “estar na zona habitável” não basta para concluir que um planeta pode sustentar vida?',transfer:'Crie uma lista de cinco variáveis que você investigaria antes de chamar um planeta de habitável.'},
+  {theme:'Atmosferas de exoplanetas',concept:'assinatura espectral',words:['atmosfera','absorção','espectroscopia','pressão','composição'],objects:['prisma ou objeto transparente','lanterna desligada','moeda','caneta'],sequence:[3,9,5,1,8,4,7,2],reasoning:'Como a luz de uma estrela atravessando uma atmosfera pode revelar quais moléculas existem nela?',transfer:'Explique espectroscopia como uma investigação indireta.'},
+  {theme:'Síntese e hipótese científica',concept:'modelo',words:['hipótese','modelo','previsão','falsificável','evidência'],objects:['baralho','dado','três moedas','caneta'],sequence:[8,1,7,3,9,2,6,4],reasoning:'O que torna uma hipótese científica mais forte do que uma explicação que acomoda qualquer resultado?',transfer:'Proponha duas explicações concorrentes para um mesmo fenômeno e diga que observação distinguiria as duas.'},
+  {theme:'Avaliação e transferência',concept:'transferência',words:['inferência','causalidade','parcimônia','contingente','subjacente'],objects:['caneca','chave','moeda','carta','dado','caneta'],sequence:[9,2,7,4,1,8,5,3],reasoning:'Diante de um problema totalmente novo, como separar o que você sabe, o que está inferindo e o que ainda precisa testar?',transfer:'Escolha um conceito da temporada e explique-o sem reutilizar a analogia treinada anteriormente.'}
+];
+
+function previousWords(week:number){
+  if(week <= 1) return ['causalidade','analogia'];
+  const prev = weekKits[week-2].words;
+  return [prev[1],prev[3]];
+}
+
 export function getPrescription(week:number, day:number): Prescription {
-  const ordinal = (week - 1) * 6 + (day - 1);
-  const domain = domains[ordinal % domains.length];
+  const kit = weekKits[Math.max(0, Math.min(25, week-1))];
+  const domain = schedule[Math.max(0, Math.min(5, day-1))];
   const level = levelFor(week);
-  const base = { domain, level, minutes: 45 };
-  if (domain === 'Visuoespacial') return { ...base,
-    title: level < 4 ? 'Reconstrução espacial no Minecraft' : level < 8 ? 'Do 2D ao 3D no Minecraft' : 'Inferência espacial com informação incompleta',
-    subtitle: 'Use um ambiente que você já gosta como laboratório de representação espacial.',
-    environment: 'Minecraft no computador + papel e lápis.',
-    rule: level < 4 ? 'Observe antes, reconstrua depois sem consultar o original durante a execução.' : level < 8 ? 'Planeje em 2D antes de construir e compare plano e resultado.' : 'Trabalhe com vistas parciais e evite retornar à referência até o fim.',
-    record: 'Tempo, consultas à referência, erros de proporção/orientação e uma foto do resultado.',
-    steps: level < 4 ? ['Escolha uma construção pequena e observe-a por 5 minutos.','Afaste-se e reconstrua em outro local sem retornar ao original.','Ao terminar, compare e anote pelo menos três diferenças.'] : level < 8 ? ['Escolha uma estrutura e faça uma planta 2D simples antes de construir.','Construa seguindo principalmente sua planta.','Compare a representação 2D com o volume final e marque erros de escala.'] : ['Registre apenas duas ou três vistas de uma estrutura complexa.','Sem acessar novamente o original, infira as partes ocultas e reconstrua.','Compare hipótese e original e classifique os erros.']
+  const base = { domain, level, minutes: 20 };
+  const words = kit.words.join(', ');
+  const objects = kit.objects.join(', ');
+
+  if (day === 1) return {...base,
+    title:`Evocação lexical · ${kit.theme}`,
+    subtitle:`Conceito central: ${kit.concept}. Cinco palavras já definidas para hoje.`,
+    environment:'Caderno Órbita, papel e caneta. Sem pesquisa durante os primeiros 15 minutos.',
+    rule:'Recupere antes de consultar. A dificuldade de lembrar faz parte do treino.',
+    record:'Palavras evocadas X/5, palavras usadas corretamente X/5 e a palavra mais difícil.',
+    steps:[
+      `Escreva uma vez e leia em voz alta: ${words}. Vire a folha após 60 segundos.`,
+      'Sem consultar, escreva as cinco palavras e dê uma definição de uma linha para cada uma.',
+      `Explique ${kit.concept} em voz alta por 90 segundos sem ler nada. Se não souber, formule primeiro sua melhor hipótese.`,
+      'Consulte uma fonte confiável por no máximo 3 minutos, corrija sua explicação e marque em outra cor o que mudou.',
+      `Feche tudo e execute a transferência: ${kit.transfer}`
+    ]
   };
-  if (domain === 'Flexibilidade') return { ...base,
-    title: 'Estratégia adaptativa em Age of Empires IV', subtitle: 'Treine mudança de plano sem transformar a sessão em uma partida comum.',
-    environment: 'Age of Empires IV ou Age of Mythology no computador.',
-    rule: 'O objetivo não é vencer. É perceber quando a estratégia deixou de fazer sentido e mudar conscientemente.',
-    record: 'Plano inicial, mudanças relevantes, motivo de cada mudança, resultado e maior erro de adaptação.',
-    steps: ['Escolha uma civilização ou estilo que você usa pouco.',`Antes da partida, escreva ${level < 5 ? 'três' : 'cinco'} objetivos iniciais.`,'Identifique toda situação que exigir abandonar ou alterar o plano.','No final, explique qual adaptação ajudou e qual aconteceu tarde demais.']
+
+  if (day === 2) return {...base,
+    title:`Reconstrução espacial · ${kit.objects.length} objetos`,
+    subtitle:`Objetos de hoje: ${objects}.`,
+    environment:`Mesa, folha A4 e estes objetos: ${objects}.`,
+    rule:'Observe por pouco tempo e depois trabalhe sem olhar novamente até concluir o desenho.',
+    record:'Erros de posição, orientação e distância; anote também se precisou espiar.',
+    steps:[
+      `Disponha ${objects} em uma configuração irregular, sem formar uma linha. Observe por ${Math.max(15,30-level*2)} segundos.`,
+      'Cubra ou afaste os objetos e desenhe a configuração vista de cima, incluindo orientação aproximada.',
+      `Ao lado, redesenhe mentalmente a mesma configuração rotacionada ${level < 4 ? '90° no sentido horário' : level < 7 ? '180°' : '90° no sentido anti-horário e depois espelhada horizontalmente'}.`,
+      'Descubra os objetos e compare. Circule cada erro em vez de apenas corrigir.',
+      'Feche os olhos por 30 segundos e descreva verbalmente onde cada objeto estava em relação aos demais.'
+    ]
   };
-  if (domain === 'Atenção') return { ...base,
-    title: 'Leitura científica com atenção sustentada', subtitle: 'Uma sessão de foco real, com produção ao final e sem jogo de atenção.',
-    environment: 'Material técnico sobre física/astrofísica; celular fora do alcance.',
-    rule: `Faça um bloco contínuo de ${Math.min(35, 20 + level*2)} minutos sem alternar aplicativos ou assuntos.`,
-    record: 'Tempo sem interrupção, distrações percebidas e qualidade da explicação final.',
-    steps: ['Escolha um tema de física que ainda não domine completamente.','Estude sem multitarefa e marque em papel cada impulso de interromper.','Feche o material e explique o conceito em voz alta por 3 a 5 minutos.','Reabra a fonte e liste o que esqueceu ou explicou incorretamente.']
+
+  if (day === 3) return {...base,
+    title:'Memória operacional · manter e transformar',
+    subtitle:`Sequência-base de hoje: ${kit.sequence.join(' – ')}.`,
+    environment:'Papel, caneta e cronômetro opcional. Faça a manipulação mental antes de escrever.',
+    rule:'Não vale copiar a sequência e manipulá-la olhando. O papel entra apenas depois da resposta mental.',
+    record:'Acertos em ordem direta, inversa e transformada; registre onde perdeu a sequência.',
+    steps:[
+      `Leia por 20 segundos: ${kit.sequence.join(' – ')}. Cubra a sequência e repita-a de trás para frente.`,
+      `Agora diga apenas os números ${level < 4 ? 'pares em ordem original' : level < 7 ? 'em ordem crescente' : 'ímpares em ordem inversa e depois os pares em ordem crescente'}.`,
+      `Faça mentalmente: comece em ${kit.sequence[0] * 3} e aplique sucessivamente −${kit.sequence[1]}, +${kit.sequence[2]}, −${kit.sequence[3]}, +${kit.sequence[4]}. Só escreva o resultado final.`,
+      `Sem consultar a sessão anterior, recorde pelo menos três palavras do tema “${kit.theme}”.`,
+      'Confira tudo no final e diferencie erro de memória, erro de regra e erro de cálculo.'
+    ]
   };
-  if (domain === 'Ciência') return { ...base,
-    title: level < 4 ? 'Entender e representar um problema físico' : level < 8 ? 'Modelar um problema físico' : 'Criar e defender um modelo físico',
-    subtitle: 'Aprender física por compreensão, representação, modelagem e explicação.',
-    environment: 'Fontes confiáveis na web, papel, calculadora e, quando fizer sentido, planilha ou software de modelagem.',
-    rule: level < 4 ? 'Primeiro entenda qualitativamente; fórmulas vêm depois.' : 'Crie sua hipótese antes de consultar uma solução pronta.',
-    record: 'Hipótese inicial, desenho/modelo, fontes consultadas, erros encontrados e versão corrigida.',
-    steps: level < 4 ? ['Pesquise transferência orbital de Hohmann ou problema semelhante.','Explique por que o fenômeno ocorre sem usar fórmulas.','Desenhe o sistema e identifique as variáveis relevantes.','Confira em fonte confiável e corrija sua representação.'] : level < 8 ? ['Escolha um problema orbital, relativístico ou de física de partículas que possa ser modelado.','Defina variáveis, condições iniciais e o que deseja prever.','Faça uma modelagem simplificada e registre suas suposições.','Compare com uma referência confiável e revise o modelo.'] : ['Escolha um problema aberto de astrofísica ou exploração espacial.','Proponha um modelo antes de pesquisar abordagens existentes.','Defenda suposições, limitações e como testar a proposta.','Compare com literatura confiável e escreva uma revisão crítica.']
+
+  if (day === 4) return {...base,
+    title:`Raciocínio científico · ${kit.concept}`,
+    subtitle:'Você recebe o problema pronto; primeiro raciocina, só depois consulta.',
+    environment:'Caderno Órbita. Consulta externa somente após registrar sua hipótese.',
+    rule:'Uma hipótese incompleta escrita antes da consulta vale mais para o treino do que uma resposta perfeita copiada depois.',
+    record:'Hipótese inicial, premissas, mudança após consulta e uma dúvida que permaneceu.',
+    steps:[
+      `Problema de hoje: ${kit.reasoning}`,
+      'Escreva sua resposta inicial em até cinco linhas. Separe explicitamente: “o que sei” e “o que estou inferindo”.',
+      `Desenhe um diagrama simples que represente o conceito de ${kit.concept}, mesmo que imperfeito.`,
+      'Consulte uma fonte confiável por até 5 minutos e identifique exatamente um acerto e um erro da sua hipótese.',
+      'Reescreva a resposta em no máximo três frases, agora com maior precisão.'
+    ]
   };
-  if (domain === 'Verbal') return { ...base,
-    title: 'Leitura + explicação sem apoio', subtitle: 'Use ficção científica e divulgação científica para treinar compreensão e expressão.',
-    environment: 'Livro físico/Kindle + gravador de voz opcional.', rule: 'A parte importante é recuperar e organizar ideias sem olhar novamente para o texto.',
-    record: 'Resumo, conceitos esquecidos, palavras novas e pontos em que a explicação perdeu clareza.',
-    steps: ['Leia um trecho de ficção científica ou divulgação científica por 20 a 25 minutos.','Feche o texto e escreva um resumo curto sem consultar.','Escolha ideias centrais e explique como se falasse com alguém que não leu o texto.','Compare com o original e marque omissões, distorções e palavras novas.']
+
+  if (day === 5) return {...base,
+    title:'Evocação tardia + flexibilidade verbal',
+    subtitle:'Recuperação espaçada sem aviso e mudança de audiência.',
+    environment:'Caderno e voz. Não reveja a semana antes de começar.',
+    rule:'Não force a lembrança consultando. Marque a falha e siga; a recuperação tardia é a medida.',
+    record:'Palavras recuperadas sem pista, tempo até lembrar e qualidade das duas explicações.',
+    steps:[
+      `Sem olhar sessões anteriores, escreva as cinco palavras desta semana. Depois tente recuperar também: ${previousWords(week).join(' e ')}.`,
+      `Escolha duas das palavras recuperadas e produza um sinônimo aproximado, um contraste e uma frase original para cada uma.`,
+      `Explique ${kit.concept} por 60 segundos para uma criança de 10 anos.`,
+      `Explique o mesmo conceito por 60 segundos para um universitário de exatas, usando vocabulário mais preciso.`,
+      `Finalize com a tarefa de transferência: ${kit.transfer}`
+    ]
   };
-  if (domain === 'Matemática') return { ...base,
-    title: level < 5 ? 'Matemática aplicada a um problema real' : 'Modelagem matemática sob restrições',
-    subtitle: 'Trabalhe números como ferramenta para prever, comparar e decidir.',
-    environment: 'Papel, calculadora ou planilha; preferencialmente um problema de física, jogo ou rotina real.',
-    rule: 'Antes de calcular, escreva o que cada variável significa e estime a ordem de grandeza da resposta.',
-    record: 'Estimativa inicial, cálculo, erro percentual quando houver referência e explicação do raciocínio.',
-    steps: ['Escolha um problema quantitativo relacionado a física, recursos de jogo ou planejamento.','Liste variáveis, unidades e uma estimativa aproximada.','Resolva mostrando etapas, não apenas a resposta.','Compare estimativa e resultado e explique diferenças importantes.']
-  };
-  if (domain === 'Criatividade') return { ...base,
-    title: level < 5 ? 'Criação com três restrições' : 'Projeto autoral com restrições conflitantes',
-    subtitle: 'Criatividade aqui significa gerar alternativas úteis sob limites claros.',
-    environment: 'Papel, texto, desenho ou editor digital — sem arquitetura.',
-    rule: `Gere pelo menos ${level < 5 ? 5 : 8} alternativas antes de escolher uma.` ,
-    record: 'Alternativas geradas, critérios de escolha, versão final e o que você descartou.',
-    steps: ['Escolha um tema ligado a ficção científica, desenho, narrativa ou design de sistema.','Defina três restrições obrigatórias.','Gere alternativas sem julgar durante a primeira etapa.','Selecione uma usando critérios explícitos e produza uma versão final curta.']
-  };
-  return { ...base,
-    title: 'Problema de planejamento em Cities: Skylines', subtitle: 'Use sistemas complexos para raciocinar sobre restrições, consequências e alternativas.',
-    environment: 'Cities: Skylines ou No Man’s Sky + bloco de notas.', rule: 'Defina o problema antes de agir e gere alternativas antes de escolher uma solução.',
-    record: 'Problema, hipóteses, solução escolhida, resultado observado e o que faria diferente.',
-    steps: ['Escolha um problema real do seu save: trânsito, recursos, expansão, logística ou organização de base.',`Escreva ${level < 5 ? 'três' : 'cinco'} soluções possíveis antes de mexer no jogo.`,'Escolha uma solução usando critérios explícitos e implemente-a.','Observe consequências inesperadas e explique por que ocorreram.']
+
+  return {...base,
+    title:'Executivo · atenção, regra e troca consciente',
+    subtitle:'Uma sessão curta sem tela para treinar foco e flexibilidade, sem virar “joguinho obrigatório”.',
+    environment:'Baralho comum (ou 20 cartas de papel numeradas), papel e caneta.',
+    rule:'Velocidade só importa depois da precisão. Quando a regra mudar, diga em voz alta qual regra abandonou e qual passou a usar.',
+    record:'Erros por regra, correções impulsivas, distrações percebidas e estratégia que funcionou melhor.',
+    steps:[
+      `Separe ${Math.min(24,12+level)} cartas. Primeira regra: agrupe por cor; faça uma única passagem sem voltar atrás.`,
+      `Misture. Segunda regra: agrupe por valor ${level < 5 ? '(baixo/alto)' : '(pares/ímpares quando aplicável, figuras separadas)'}.`,
+      'Misture novamente. Agora alterne a regra a cada quatro cartas: cor → valor → cor → valor. Diga “troca” em voz alta.',
+      `Sem olhar suas anotações, resuma em 45 segundos o problema científico desta semana sobre ${kit.concept}.`,
+      'Escreva uma frase: “Hoje perdi precisão quando…”. Essa frase é o dado executivo principal da sessão.'
+    ]
   };
 }
 
