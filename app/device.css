@@ -1,5 +1,31 @@
 /* Ajustes finos para os dispositivos usados no Órbita */
 
+html {
+  background: var(--bg);
+  overscroll-behavior-y: none;
+}
+
+body {
+  min-height: 100svh;
+}
+
+button,
+summary,
+input,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+summary {
+  touch-action: manipulation;
+}
+
+input,
+textarea {
+  font-size: 16px;
+}
+
 /* iPhone 16 Pro Max e outros iPhones grandes em retrato */
 @media (min-width: 391px) and (max-width: 480px) {
   .page {
@@ -116,6 +142,20 @@
   .sidebar {
     padding-bottom: max(20px, env(safe-area-inset-bottom));
   }
+  @media (max-width: 900px) {
+    .topbar {
+      padding-left: max(16px, env(safe-area-inset-left));
+      padding-right: max(16px, env(safe-area-inset-right));
+    }
+    .page,
+    .accountWrap {
+      padding-left: max(20px, env(safe-area-inset-left));
+      padding-right: max(20px, env(safe-area-inset-right));
+    }
+    .sidebar {
+      padding-left: max(18px, env(safe-area-inset-left));
+    }
+  }
 }
 .accountWrap {
   max-width: 1280px;
@@ -132,6 +172,9 @@
 .account summary {
   cursor: pointer;
   font-weight: 600;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
 }
 .account form {
   display: grid;
@@ -150,6 +193,7 @@
   border-radius: 8px;
   background: var(--card);
   color: var(--text);
+  min-height: 48px;
 }
 .account button {
   cursor: pointer;
@@ -239,7 +283,10 @@
   flex-wrap: wrap;
 }
 .workbookActions span,
-.accountWrap > p {
+.workbookActions output,
+.accountWrap > p,
+.accountWrap > output,
+.account output {
   font-size: 14px;
   color: var(--muted);
 }
@@ -261,6 +308,9 @@
   .accountWrap {
     padding: 14px 16px 0;
   }
+  .account {
+    padding: 10px 14px;
+  }
   .dayTabs {
     display: grid;
     grid-template-columns: repeat(7, minmax(40px, 1fr));
@@ -279,5 +329,44 @@
   }
   .scale {
     flex-wrap: wrap;
+  }
+}
+
+/* iPhone em paisagem: preserva o conteúdo ao redor da Ilha Dinâmica. */
+@media (max-height: 500px) and (orientation: landscape) {
+  .sidebar {
+    overflow-y: auto;
+  }
+  .page {
+    padding-top: 20px;
+  }
+  .hero {
+    margin-top: 4px;
+  }
+}
+
+/* iPad: usa a largura disponível sem alongar demais os campos de leitura. */
+@media (min-width: 601px) and (max-width: 1180px) {
+  .workbook,
+  .prescription {
+    width: 100%;
+  }
+  .answerStep textarea {
+    min-height: 132px;
+  }
+  .account form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 720px;
+  }
+  .account form button,
+  .account form output,
+  .account form p {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (display-mode: standalone) {
+  .shell {
+    min-height: 100svh;
   }
 }
