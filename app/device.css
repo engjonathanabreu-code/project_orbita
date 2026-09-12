@@ -2,45 +2,282 @@
 
 /* iPhone 16 Pro Max e outros iPhones grandes em retrato */
 @media (min-width: 391px) and (max-width: 480px) {
-  .page { padding-left: 16px; padding-right: 16px; }
-  .hero { grid-template-columns: 1fr; }
-  .hero .primary { width: 100%; }
-  .topStat { max-width: 190px; }
-  .prescriptionTop { grid-template-columns: 1fr auto; gap: 14px; }
-  .mainInstruction, .rules { padding: 20px; }
-  .step { grid-template-columns: 28px 1fr; }
-  .dayTabs { margin-left: -16px; margin-right: -16px; padding-left: 16px; padding-right: 16px; }
-  .dayTabs button { min-width: 72px; }
-  .primary, .save { min-height: 54px; }
-  .logForm input, .logForm textarea { font-size: 16px; }
+  .page {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .hero {
+    grid-template-columns: 1fr;
+  }
+  .hero .primary {
+    width: 100%;
+  }
+  .topStat {
+    max-width: 190px;
+  }
+  .prescriptionTop {
+    grid-template-columns: 1fr auto;
+    gap: 14px;
+  }
+  .mainInstruction,
+  .rules {
+    padding: 20px;
+  }
+  .step {
+    grid-template-columns: 28px 1fr;
+  }
+  .dayTabs {
+    margin-left: -16px;
+    margin-right: -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .dayTabs button {
+    min-width: 72px;
+  }
+  .primary,
+  .save {
+    min-height: 54px;
+  }
+  .logForm input,
+  .logForm textarea {
+    font-size: 16px;
+  }
 }
 
 /* iPad 11" em retrato */
 @media (min-width: 700px) and (max-width: 900px) {
-  .page { max-width: 860px; padding-left: 30px; padding-right: 30px; }
-  .hero { align-items: center; }
-  .hero .primary { width: auto; min-width: 210px; }
-  .instructionGrid { grid-template-columns: 1.2fr .8fr; }
-  .domainGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .weekGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .dayTabs { grid-template-columns: repeat(7, minmax(82px, 1fr)); }
+  .page {
+    max-width: 860px;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  .hero {
+    align-items: center;
+  }
+  .hero .primary {
+    width: auto;
+    min-width: 210px;
+  }
+  .instructionGrid {
+    grid-template-columns: 1.2fr 0.8fr;
+  }
+  .domainGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .weekGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .dayTabs {
+    grid-template-columns: repeat(7, minmax(82px, 1fr));
+  }
 }
 
 /* iPad 11" em paisagem */
 @media (min-width: 901px) and (max-width: 1220px) {
-  .shell { grid-template-columns: 220px 1fr; }
-  .sidebar { padding-left: 14px; padding-right: 14px; }
-  .page { max-width: 980px; padding-left: 26px; padding-right: 26px; }
-  .topbar { padding-left: 24px; padding-right: 24px; }
-  .instructionGrid { grid-template-columns: 1.45fr .85fr; }
-  .domainGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .weekGrid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .phases { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .shell {
+    grid-template-columns: 220px 1fr;
+  }
+  .sidebar {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+  .page {
+    max-width: 980px;
+    padding-left: 26px;
+    padding-right: 26px;
+  }
+  .topbar {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  .instructionGrid {
+    grid-template-columns: 1.45fr 0.85fr;
+  }
+  .domainGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .weekGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .phases {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
 /* Evita aperto em landscape curto e respeita áreas seguras do iOS */
 @supports (padding: max(0px)) {
-  .topbar { padding-top: max(8px, env(safe-area-inset-top)); }
-  .page { padding-bottom: max(72px, calc(56px + env(safe-area-inset-bottom))); }
-  .sidebar { padding-bottom: max(20px, env(safe-area-inset-bottom)); }
+  .topbar {
+    padding-top: max(8px, env(safe-area-inset-top));
+  }
+  .page {
+    padding-bottom: max(72px, calc(56px + env(safe-area-inset-bottom)));
+  }
+  .sidebar {
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+  }
+}
+.accountWrap {
+  max-width: 1280px;
+  margin: auto;
+  padding: 16px 32px 0;
+}
+.account {
+  border: 1px solid var(--line);
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: var(--panel);
+  font-size: 14px;
+}
+.account summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.account form {
+  display: grid;
+  gap: 12px;
+  max-width: 450px;
+  margin-top: 14px;
+}
+.account label {
+  display: grid;
+  gap: 6px;
+}
+.account input,
+.account button {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--text);
+}
+.account button {
+  cursor: pointer;
+}
+.account p {
+  color: var(--muted);
+  line-height: 1.5;
+}
+.workbook {
+  margin: 28px 0;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--panel);
+}
+.workbook h3 {
+  margin: 0 0 10px;
+}
+.workbook p {
+  line-height: 1.6;
+  color: var(--muted);
+}
+.answerModes {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 16px 0;
+}
+.answerModes button {
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--text);
+  padding: 12px 18px;
+  border-radius: 10px;
+  min-height: 44px;
+  cursor: pointer;
+}
+.answerModes [aria-pressed='true'] {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.stimulus {
+  padding: 18px;
+  margin: 20px 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.stimulus summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.answerStep {
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+}
+.answerStep h4 {
+  color: var(--accent);
+  margin: 0;
+  font-size: 16px;
+}
+.answerStep label {
+  display: block;
+  font-size: 14px;
+  margin: 16px 0 8px;
+}
+.answerStep textarea {
+  display: block;
+  width: 100%;
+  resize: vertical;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 16px;
+  line-height: 1.6;
+  min-height: 120px;
+}
+.answerStep textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.workbookActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.workbookActions span,
+.accountWrap > p {
+  font-size: 14px;
+  color: var(--muted);
+}
+.startNotice {
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--cyan);
+  font-size: 14px;
+}
+.journal p {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 600px) {
+  .workbook {
+    padding: 18px;
+  }
+  .accountWrap {
+    padding: 14px 16px 0;
+  }
+  .dayTabs {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(40px, 1fr));
+    gap: 3px;
+    overflow: visible;
+  }
+  .dayTabs button {
+    min-width: 0;
+    padding: 10px 0;
+  }
+  .dayTabs button span {
+    font-size: 10px;
+  }
+  .workbookActions .primary {
+    width: 100%;
+  }
+  .scale {
+    flex-wrap: wrap;
+  }
 }

@@ -1,28 +1,17 @@
 # Órbita
 
-Aplicativo responsivo para um ciclo de treino cognitivo de 26 semanas, com sessões de até 45 minutos, quatro minijogos e sincronização opcional via Supabase.
+Treino cognitivo no escritório: 130 sessões de 20 minutos, de segunda a sexta-feira, a partir de 14/09/2026. Cada sessão tem cinco etapas, respondidas na plataforma ou feitas com papel e caneta e registradas em resumo.
 
-## Rodar localmente
+## Uso
 
-1. Use Node.js 22 ou superior.
-2. Copie `.env.example` para `.env.local` e preencha as duas variáveis do Supabase.
-3. Execute `npm install` e `npm run dev`.
+Abra https://project-orbita-omega.vercel.app/ e escolha Hoje. Os rascunhos são guardados automaticamente neste navegador. Para sincronizar respostas entre aparelhos, entre com sua conta e use Salvar respostas. Concluir sessão registra também as respostas no Diário. O histórico do calendário anterior continua disponível.
 
-Sem variáveis do Supabase, o app entra em **modo demonstração** e guarda o progresso apenas neste navegador.
+## Desenvolvimento
 
-## Configurar Supabase
+Node.js 22 ou superior. Execute `npm ci`, `npm run dev`, `npm run lint` e `npm run build`. As variáveis `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` substituem a configuração pública do projeto existente.
 
-1. Crie um projeto no Supabase.
-2. No SQL Editor, execute `supabase/migrations/20260907000000_initial_schema.sql`.
-3. Em Authentication, habilite Email e defina a URL do site e `http://localhost:3000` como URLs permitidas.
-4. Copie a URL e a chave publicável para `.env.local`.
+As migrações em `supabase/migrations` definem as tabelas. Rascunhos e sessões usam políticas RLS por usuário; nenhuma chave secreta deve ser incluída no cliente. O projeto tem integração GitHub/Vercel.
 
-As três tabelas usam RLS: cada pessoa só acessa seus próprios registros. Nenhuma chave secreta é usada no cliente.
+## Plano
 
-## Publicar na Vercel
-
-Importe esta pasta como projeto, mantenha o preset Next.js e cadastre `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`. Depois acrescente a URL final da Vercel às URLs permitidas no Supabase Auth.
-
-## Sobre o plano
-
-O programa prioriza atenção/concentração (C), flexibilidade mental (H) e raciocínio visuoespacial (B). Linguagem, criatividade, desenho e programação preservam e transferem habilidades. Percentis não são tratados como diagnósticos ou déficits. O app acompanha desempenho em tarefas; não estima mudança de QI e não substitui acompanhamento profissional.
+Ênfase em evocação lexical, com memória operacional, raciocínio científico, funções executivas e exercícios visuoespaciais. As referências semanais devem ser abertas depois da tentativa. Sábados e domingos são de descanso. Pular um dia preserva a ordem das próximas missões. O app acompanha atividades, não fornece pontuação de QI.
