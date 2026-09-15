@@ -31,6 +31,7 @@ import {
 import { getSupabase } from '@/lib/supabase';
 import { getReference } from '@/lib/references';
 import { Account } from '@/components/account';
+import { LocalRecovery } from '@/components/local-recovery';
 import { Workbook, type WorkbookData } from '@/components/workbook';
 import {
   START_DATE,
@@ -80,6 +81,11 @@ export default function HomePage() {
   const [ready, setReady] = useState(false);
   const [loadedScope, setLoadedScope] = useState<string | null>(null);
   const [saveMessage, setSaveMessage] = useState('');
+  const [recoveryVersion, setRecoveryVersion] = useState(0);
+  const handleRecovered = useCallback(() => {
+    setSaveMessage('Sessões e respostas disponíveis na sua conta em outros dispositivos.');
+    setRecoveryVersion((version) => version + 1);
+  }, []);
   const handleUser = useCallback((id: string | null) => setUserId(id), []);
   useEffect(() => {
     let alive = true;
@@ -150,7 +156,7 @@ export default function HomePage() {
     return () => {
       alive = false;
     };
-  }, [userId]);
+  }, [userId, recoveryVersion]);
   useEffect(() => {
     if (!ready || loadedScope !== (userId || 'local')) return;
     try {
@@ -174,7 +180,7 @@ export default function HomePage() {
         userId ? `orbita-logs-v4:${userId}` : 'orbita-logs-v3',
         JSON.stringify(next),
       );
-      setSaveMessage('Sessão salva neste navegador.');
+      setSaveMessage(userId ? 'Sessão salva neste navegador. Enviando à sua conta…' : 'Sessão salva apenas neste navegador. Entre na conta para enviar à nuvem.');
     } catch {
       setSaveMessage(
         'Não foi possível salvar neste navegador. Mantenha esta página aberta.',
@@ -289,6 +295,7 @@ export default function HomePage() {
           <Account onUser={handleUser} />
           {saveMessage && <output>{saveMessage}</output>}
         </div>
+        {userId && <LocalRecovery key={userId} userId={userId} onRecovered={handleRecovered} />}
         {view === 'dashboard' && (
           <Dashboard
             logs={currentLogs}
@@ -308,7 +315,7 @@ export default function HomePage() {
             </div>
           ) : (
             <Today
-              key={`${userId || 'local'}-${week}-${day}-${skipped.join(',')}-${logs.map((l) => l.completedAt).join(',')}`}
+              key={`${userId || 'local'}-${recoveryVersion}-${week}-${day}-${skipped.join(',')}-${logs.map((l) => l.completedAt).join(',')}`}
               userId={userId}
               week={week}
               day={day}

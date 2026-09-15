@@ -84,10 +84,11 @@ export function Workbook({
                   );
                 } else if (
                   !local.updatedAt ||
-                  next.updatedAt > local.updatedAt
+                  Date.parse(next.updatedAt) >= Date.parse(local.updatedAt)
                 ) {
                   setData(next);
                   onChange(next);
+                  try { localStorage.setItem(storageKey, JSON.stringify(next)); } catch { /* Cloud copy is intact. */ }
                   setStatus('Respostas recuperadas da sua conta.');
                 } else
                   setStatus(
