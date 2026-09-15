@@ -299,11 +299,11 @@ export default function HomePage() {
         {view === 'today' &&
           (day === 0 ? (
             <div className="page">
-              <div className="eyebrow">TEMPORADA 1 · INÍCIO 16/09/2026</div>
+              <div className="eyebrow">TEMPORADA 1 · INÍCIO 15/09/2026</div>
               <div className="empty">
                 <Clock3 />
                 <h3>A temporada começa amanhã</h3>
-                <p>A Missão 1 estará disponível em 16/09/2026.</p>
+                <p>A Missão 1 estará disponível em 15/09/2026.</p>
               </div>
             </div>
           ) : (
@@ -360,7 +360,7 @@ function Dashboard({
   return (
     <div className="page">
       <div className="eyebrow">
-        TEMPORADA 1 · INÍCIO 16/09/2026 · 130 SESSÕES
+        TEMPORADA 1 · INÍCIO 15/09/2026 · 130 SESSÕES
       </div>
       <div className="hero">
         <div>
@@ -520,7 +520,7 @@ function Today({
       </div>
       {localDate() < START_DATE && (
         <p className="startNotice">
-          A temporada começa quarta-feira, 16/09/2026. Você já pode conhecer e
+          A temporada começa terça-feira, 15/09/2026. Você já pode conhecer e
           preparar as tarefas.
         </p>
       )}
@@ -831,7 +831,7 @@ function Progress({ logs }: { logs: Log[] }) {
         </div>
       </div>
       {logs.length === 0 ? (
-        <Empty text="Ainda não há resultados. As novas sessões começam em 16/09/2026; registros anteriores continuam no Diário." />
+        <Empty text="Ainda não há resultados. As novas sessões começam em 15/09/2026; registros anteriores continuam no Diário." />
       ) : (
         <div className="domainGrid">
           {domains.map((d) => {

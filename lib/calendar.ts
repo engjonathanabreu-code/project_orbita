@@ -1,5 +1,5 @@
-export const START_DATE = '2026-09-16';
-export const START_DAY = 3;
+export const START_DATE = '2026-09-15';
+export const START_DAY = 2;
 const START_OFFSET = START_DAY - 1;
 export const TOTAL_SESSIONS = 130;
 export const dayLabels = ['SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB', 'DOM'];
