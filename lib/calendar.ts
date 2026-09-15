@@ -1,4 +1,6 @@
-export const START_DATE = '2026-09-14';
+export const START_DATE = '2026-09-16';
+export const START_DAY = 3;
+const START_OFFSET = START_DAY - 1;
 export const TOTAL_SESSIONS = 130;
 export const dayLabels = ['SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB', 'DOM'];
 export const localDate = (d = new Date()) =>
@@ -13,16 +15,17 @@ export function plannedCoords(week: number, day: number, skipped: string[]) {
     day > 7 ||
     week < 1 ||
     isRest(day) ||
+    (week === 1 && day < START_DAY) ||
     skipped.includes(slotKey(week, day))
   )
     return null;
   const before = new Set(
     skipped.filter((k) => {
       const m = k.match(/^office-cw(\d+)-d([1-5])$/);
-      return m && ordinal(+m[1], +m[2]) < ordinal(week, day);
+      return m && ordinal(+m[1], +m[2]) > START_OFFSET && ordinal(+m[1], +m[2]) < ordinal(week, day);
     }),
   );
-  const n = ordinal(week, day) - before.size;
+  const n = ordinal(week, day) - START_OFFSET - before.size;
   if (n < 1 || n > TOTAL_SESSIONS) return null;
   return {
     ordinal: n,
@@ -38,12 +41,12 @@ export function coords(today = localDate()) {
       86400000,
   );
   return n < 0
-    ? { week: 1, day: 1 }
-    : { week: Math.floor(n / 7) + 1, day: (n % 7) + 1 };
+    ? { week: 1, day: START_DAY }
+    : { week: Math.floor((n + START_OFFSET) / 7) + 1, day: ((n + START_OFFSET) % 7) + 1 };
 }
 export function calendarDate(week: number, day: number) {
   return new Date(
     Date.parse(START_DATE + 'T12:00:00-03:00') +
-      ((week - 1) * 7 + day - 1) * 86400000,
+      ((week - 1) * 7 + day - 1 - START_OFFSET) * 86400000,
   );
 }

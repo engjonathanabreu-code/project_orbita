@@ -34,6 +34,7 @@ import { Account } from '@/components/account';
 import { Workbook, type WorkbookData } from '@/components/workbook';
 import {
   START_DATE,
+  START_DAY,
   dayLabels,
   localDate,
   isRest,
@@ -298,11 +299,11 @@ export default function HomePage() {
         {view === 'today' &&
           (day === 0 ? (
             <div className="page">
-              <div className="eyebrow">TEMPORADA 1 · INÍCIO 14/09/2026</div>
+              <div className="eyebrow">TEMPORADA 1 · INÍCIO 16/09/2026</div>
               <div className="empty">
                 <Clock3 />
                 <h3>A temporada começa amanhã</h3>
-                <p>A Missão 1 estará disponível em 14/09/2026.</p>
+                <p>A Missão 1 estará disponível em 16/09/2026.</p>
               </div>
             </div>
           ) : (
@@ -323,7 +324,7 @@ export default function HomePage() {
             week={week}
             setWeek={(w) => {
               setWeek(w);
-              setDay(1);
+              setDay(w === 1 ? START_DAY : 1);
               setView('today');
             }}
             completed={completed}
@@ -359,7 +360,7 @@ function Dashboard({
   return (
     <div className="page">
       <div className="eyebrow">
-        TEMPORADA 1 · INÍCIO 14/09/2026 · 26 SEMANAS
+        TEMPORADA 1 · INÍCIO 16/09/2026 · 130 SESSÕES
       </div>
       <div className="hero">
         <div>
@@ -519,7 +520,7 @@ function Today({
       </div>
       {localDate() < START_DATE && (
         <p className="startNotice">
-          A temporada começa segunda-feira, 14/09/2026. Você já pode conhecer e
+          A temporada começa quarta-feira, 16/09/2026. Você já pode conhecer e
           preparar as tarefas.
         </p>
       )}
@@ -527,6 +528,7 @@ function Today({
         {dayLabels.map((label, i) => (
           <button
             key={label}
+            disabled={week === 1 && i + 1 < START_DAY}
             className={day === i + 1 ? 'active' : ''}
             onClick={() => setDay(i + 1)}
           >
@@ -762,7 +764,7 @@ function Season({
   completed: Set<string>;
   skipped: string[];
 }) {
-  const weeks = 26 + Math.ceil(skipped.length / 5);
+  const weeks = Math.ceil((130 + START_DAY - 1 + skipped.length) / 5);
   return (
     <div className="page">
       <div className="eyebrow">
@@ -829,7 +831,7 @@ function Progress({ logs }: { logs: Log[] }) {
         </div>
       </div>
       {logs.length === 0 ? (
-        <Empty text="Ainda não há resultados. As novas sessões começam em 14/09/2026; registros anteriores continuam no Diário." />
+        <Empty text="Ainda não há resultados. As novas sessões começam em 16/09/2026; registros anteriores continuam no Diário." />
       ) : (
         <div className="domainGrid">
           {domains.map((d) => {
